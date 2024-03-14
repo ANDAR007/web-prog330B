@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+    <script src="../static/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<form id="myform" method="post">
+    <h2>Your name is...</h2>
+    <p><input name="first" id="first" type="text"></p>
+    <h2>Your login is...</h2>
+    <p><input name="second" id="second" type="text"></p>
+    <p><input type="button" value="press" onclick="my_submit()"></p>
+</form>
+<script>
+    const my_submit = () => {
+        $.ajax({
+            type: "post",
+            url: "action.php",
+            data: {
+                first: $("#first").val(),
+                second: $("#second").val(),
+            },
+            success: (response) => {
+                console.log("Данные успешно отправлены на сервер");
+                $('#result').html(`
+                    <table>
+                        <tr>
+                            <td>Name</td>
+                            <td>Login</td>
+                            <td>Method</td>
+                        </tr>
+                        <tr>
+                            <td>${response.first}</td>
+                            <td>${response.second}</td>
+                            <td>${response.method}</td>
+                        </tr>  
+                    </table>
+                `);
+            },
+            error: () => {
+                console.log("Произошла ошибка при отправке данных на сервер");
+            },
+        });
+    }
+</script>
+
+<div id="result"></div>
+</body>
+</html>
